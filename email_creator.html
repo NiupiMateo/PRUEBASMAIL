@@ -155,6 +155,17 @@
         font-weight: normal;
       }
 
+      .acciones-resultados {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .acciones-resultados button {
+        flex: 1 1 200px;
+      }
+
       .lista-correos {
         margin: 0;
         margin-top: 1rem;
@@ -266,6 +277,14 @@
           <span id="cantidad"></span>
         </h2>
         <ol class="lista-correos" id="lista"></ol>
+        <div
+          class="acciones-resultados oculto"
+          id="acciones-resultados"
+          aria-label="Acciones disponibles"
+        >
+          <button type="button" id="copiar-correos">Copiar correos</button>
+          <button type="button" id="descargar-correos">Descargar TXT</button>
+        </div>
       </section>
     </div>
     <script>
@@ -278,6 +297,9 @@
       const resultsSection = document.getElementById("resultados");
       const quantityLabel = document.getElementById("cantidad");
       const resultsList = document.getElementById("lista");
+      const actionsContainer = document.getElementById("acciones-resultados");
+      const copyButton = document.getElementById("copiar-correos");
+      const downloadButton = document.getElementById("descargar-correos");
 
       const letras = "abcdefghijklmnopqrstuvwxyz";
       const numeros = "0123456789";
@@ -316,6 +338,72 @@
         mezclar(caracteres);
         const local = caracteres.join("");
         return `${local}@${dominio}`;
+      }
+
+      function obtenerCorreosGenerados() {
+        return Array.from(resultsList.querySelectorAll("li"), (item) =>
+          item.textContent.trim()
+        ).filter((texto) => texto.length > 0);
+      }
+
+      async function copiarCorreos() {
+        const correos = obtenerCorreosGenerados();
+        if (correos.length === 0) {
+          mostrarError("No hay correos disponibles para copiar.");
+          return;
+        }
+
+        const texto = correos.join("\n");
+
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(texto);
+          } else {
+            const areaTemporal = document.createElement("textarea");
+            areaTemporal.value = texto;
+            areaTemporal.setAttribute("readonly", "");
+            areaTemporal.style.position = "absolute";
+            areaTemporal.style.left = "-9999px";
+            document.body.appendChild(areaTemporal);
+            areaTemporal.select();
+            const copiado = document.execCommand("copy");
+            areaTemporal.remove();
+            if (!copiado) {
+              throw new Error("Error al copiar con execCommand");
+            }
+          }
+          limpiarError();
+        } catch (error) {
+          mostrarError(
+            "No fue posible copiar los correos automáticamente. Puedes descargarlos en un archivo."
+          );
+        }
+      }
+
+      function descargarCorreos() {
+        const correos = obtenerCorreosGenerados();
+        if (correos.length === 0) {
+          mostrarError("No hay correos disponibles para descargar.");
+          return;
+        }
+
+        const contenido = correos.join("\n");
+        const blob = new Blob([contenido], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const enlace = document.createElement("a");
+
+        const marcaDeTiempo = new Date()
+          .toISOString()
+          .replace(/[:T]/g, "-")
+          .slice(0, 19);
+
+        enlace.href = url;
+        enlace.download = `correos-${marcaDeTiempo}.txt`;
+        document.body.appendChild(enlace);
+        enlace.click();
+        enlace.remove();
+        URL.revokeObjectURL(url);
+        limpiarError();
       }
 
       function validarDominio(dominio) {
@@ -400,6 +488,15 @@
         resultsList.appendChild(fragmento);
         quantityLabel.textContent = `(${cantidadSolicitada})`;
         resultsSection.classList.remove("oculto");
+        actionsContainer.classList.remove("oculto");
+      });
+
+      copyButton.addEventListener("click", () => {
+        copiarCorreos();
+      });
+
+      downloadButton.addEventListener("click", () => {
+        descargarCorreos();
       });
     </script>
   </body>
