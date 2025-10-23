@@ -314,6 +314,186 @@
       color: var(--azul-oscuro);
     }
 
+codex/develop-technical-proposal-for-futureway-app-wal5ym
+    .interactive-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 18px;
+      padding: 1.5rem;
+      border: 1px solid rgba(31, 34, 68, 0.08);
+      box-shadow: 0 12px 28px rgba(31, 34, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-card h4 {
+      margin: 0;
+      color: var(--azul-oscuro);
+    }
+
+    .form-card p {
+      margin: 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: var(--azul-oscuro);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1.5px solid rgba(31, 34, 68, 0.18);
+      border-radius: 12px;
+      padding: 0.65rem 0.85rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: rgba(37, 178, 167, 0.06);
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--turquesa);
+      box-shadow: 0 0 0 4px rgba(37, 178, 167, 0.2);
+      background: white;
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .form-hint {
+      font-size: 0.85rem;
+      color: rgba(31, 34, 68, 0.65);
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--turquesa), var(--morado));
+      color: white;
+      box-shadow: 0 10px 20px rgba(37, 178, 167, 0.25);
+    }
+
+    .btn.ghost {
+      background: rgba(31, 34, 68, 0.05);
+      color: var(--azul-oscuro);
+      border: 1px solid rgba(31, 34, 68, 0.12);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(31, 34, 68, 0.18);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(123, 61, 145, 0.35);
+      outline-offset: 2px;
+    }
+
+    .test-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .question {
+      border: 1.5px dashed rgba(31, 34, 68, 0.2);
+      border-radius: 14px;
+      padding: 1rem 1.1rem 0.9rem;
+      background: rgba(31, 34, 68, 0.02);
+      margin: 0;
+    }
+
+    .question legend {
+      padding: 0 0.4rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .question-title {
+      margin: 0 0 0.6rem;
+      color: var(--morado);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .scale-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .scale-options label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(37, 178, 167, 0.12);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .scale-options label:hover {
+      background: rgba(123, 61, 145, 0.18);
+    }
+
+    .scale-options input[type="radio"] {
+      accent-color: var(--turquesa);
+      margin: 0;
+    }
+
+    .result-box {
+      margin-top: 0.5rem;
+      padding: 1rem;
+      border-radius: 14px;
+      border-left: 4px solid var(--turquesa);
+      background: rgba(37, 178, 167, 0.12);
+      font-size: 0.95rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+main
     footer {
       text-align: center;
       padding: 1.5rem;
@@ -509,6 +689,439 @@
           <div class="block">Panel de logros parciales (badges, barras).</div>
         </div>
       </div>
+codex/develop-technical-proposal-for-futureway-app-wal5ym
+      <h3>Prototipo Ejecutable: Registro y Test Vocacional</h3>
+      <p>El siguiente módulo demostrativo permite experimentar el registro básico de datos y un test vocacional express con 15 preguntas alineadas a intereses y rutas frecuentes en colegios colombianos.</p>
+      <div class="interactive-grid">
+        <div class="form-card">
+          <h4>Registro de Datos Personales</h4>
+          <p id="registro-hint" class="form-hint">Completa tu perfil inicial para personalizar recomendaciones educativas y de emprendimiento.</p>
+          <form id="registro-form" autocomplete="on" aria-describedby="registro-hint registro-privacidad">
+            <div class="form-group">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Ej. Valentina López" required />
+            </div>
+            <div class="form-group">
+              <label for="edad">Edad</label>
+              <input type="number" id="edad" name="edad" min="14" max="18" step="1" inputmode="numeric" placeholder="Ej. 16" required />
+            </div>
+            <div class="form-group">
+              <label for="colegio">Colegio</label>
+              <input type="text" id="colegio" name="colegio" placeholder="Ej. I.E. Distrital Jorge Isaacs" required />
+            </div>
+            <div class="form-group">
+              <label for="grado">Grado actual</label>
+              <select id="grado" name="grado" required>
+                <option value="" disabled selected>Selecciona tu grado</option>
+                <option value="9°">9°</option>
+                <option value="10°">10°</option>
+                <option value="11°">11°</option>
+                <option value="12° (Media técnica)">12° (Media técnica)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="intereses">Intereses principales</label>
+              <textarea id="intereses" name="intereses" placeholder="Ej. Robótica, servicio social, música" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Guardar perfil inicial</button>
+              <button type="reset" class="btn ghost">Limpiar</button>
+            </div>
+            <p id="registro-privacidad" class="form-hint">La información se almacena localmente en esta demo y refleja el flujo real de FutureWay.</p>
+          </form>
+          <div id="registro-feedback" class="result-box hidden" aria-live="polite" role="status"></div>
+        </div>
+        <div class="form-card">
+          <h4>Test Vocacional Express (15 preguntas)</h4>
+          <p id="test-hint" class="form-hint">Responde en una escala de 1 (No me describe) a 5 (Me describe totalmente). El resultado agrupa afinidades en ciencias, salud, impacto social, creatividad y emprendimiento.</p>
+          <form id="test-form" aria-describedby="test-hint">
+            <div class="test-grid">
+              <fieldset class="question">
+                <legend class="question-title">1. Disfruto resolver acertijos lógicos y matemáticos.</legend>
+                <div class="scale-options">
+                  <label for="q1-1">
+                    <input type="radio" id="q1-1" name="q1" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q1-2">
+                    <input type="radio" id="q1-2" name="q1" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q1-3">
+                    <input type="radio" id="q1-3" name="q1" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q1-4">
+                    <input type="radio" id="q1-4" name="q1" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q1-5">
+                    <input type="radio" id="q1-5" name="q1" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">2. Me interesa comprender cómo funciona el cuerpo humano y cuidar la salud de otros.</legend>
+                <div class="scale-options">
+                  <label for="q2-1">
+                    <input type="radio" id="q2-1" name="q2" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q2-2">
+                    <input type="radio" id="q2-2" name="q2" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q2-3">
+                    <input type="radio" id="q2-3" name="q2" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q2-4">
+                    <input type="radio" id="q2-4" name="q2" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q2-5">
+                    <input type="radio" id="q2-5" name="q2" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">3. Me motiva participar en proyectos que impacten positivamente mi comunidad.</legend>
+                <div class="scale-options">
+                  <label for="q3-1">
+                    <input type="radio" id="q3-1" name="q3" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q3-2">
+                    <input type="radio" id="q3-2" name="q3" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q3-3">
+                    <input type="radio" id="q3-3" name="q3" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q3-4">
+                    <input type="radio" id="q3-4" name="q3" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q3-5">
+                    <input type="radio" id="q3-5" name="q3" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">4. Me apasiona crear contenidos artísticos como música, dibujo o video.</legend>
+                <div class="scale-options">
+                  <label for="q4-1">
+                    <input type="radio" id="q4-1" name="q4" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q4-2">
+                    <input type="radio" id="q4-2" name="q4" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q4-3">
+                    <input type="radio" id="q4-3" name="q4" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q4-4">
+                    <input type="radio" id="q4-4" name="q4" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q4-5">
+                    <input type="radio" id="q4-5" name="q4" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">5. Sueño con iniciar un emprendimiento propio o gestionar un negocio familiar.</legend>
+                <div class="scale-options">
+                  <label for="q5-1">
+                    <input type="radio" id="q5-1" name="q5" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q5-2">
+                    <input type="radio" id="q5-2" name="q5" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q5-3">
+                    <input type="radio" id="q5-3" name="q5" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q5-4">
+                    <input type="radio" id="q5-4" name="q5" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q5-5">
+                    <input type="radio" id="q5-5" name="q5" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">6. Me siento cómodo usando tecnología para solucionar problemas cotidianos.</legend>
+                <div class="scale-options">
+                  <label for="q6-1">
+                    <input type="radio" id="q6-1" name="q6" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q6-2">
+                    <input type="radio" id="q6-2" name="q6" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q6-3">
+                    <input type="radio" id="q6-3" name="q6" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q6-4">
+                    <input type="radio" id="q6-4" name="q6" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q6-5">
+                    <input type="radio" id="q6-5" name="q6" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">7. Me gustaría trabajar en contextos de bienestar mental o acompañamiento emocional.</legend>
+                <div class="scale-options">
+                  <label for="q7-1">
+                    <input type="radio" id="q7-1" name="q7" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q7-2">
+                    <input type="radio" id="q7-2" name="q7" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q7-3">
+                    <input type="radio" id="q7-3" name="q7" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q7-4">
+                    <input type="radio" id="q7-4" name="q7" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q7-5">
+                    <input type="radio" id="q7-5" name="q7" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">8. Disfruto investigar y debatir sobre temas sociales, políticos o económicos.</legend>
+                <div class="scale-options">
+                  <label for="q8-1">
+                    <input type="radio" id="q8-1" name="q8" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q8-2">
+                    <input type="radio" id="q8-2" name="q8" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q8-3">
+                    <input type="radio" id="q8-3" name="q8" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q8-4">
+                    <input type="radio" id="q8-4" name="q8" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q8-5">
+                    <input type="radio" id="q8-5" name="q8" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">9. Me entusiasma diseñar experiencias visuales atractivas para otros.</legend>
+                <div class="scale-options">
+                  <label for="q9-1">
+                    <input type="radio" id="q9-1" name="q9" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q9-2">
+                    <input type="radio" id="q9-2" name="q9" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q9-3">
+                    <input type="radio" id="q9-3" name="q9" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q9-4">
+                    <input type="radio" id="q9-4" name="q9" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q9-5">
+                    <input type="radio" id="q9-5" name="q9" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">10. Me interesa aprender sobre administración de recursos y finanzas personales.</legend>
+                <div class="scale-options">
+                  <label for="q10-1">
+                    <input type="radio" id="q10-1" name="q10" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q10-2">
+                    <input type="radio" id="q10-2" name="q10" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q10-3">
+                    <input type="radio" id="q10-3" name="q10" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q10-4">
+                    <input type="radio" id="q10-4" name="q10" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q10-5">
+                    <input type="radio" id="q10-5" name="q10" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">11. Quiero entender cómo funcionan los sistemas de energía, máquinas o aplicaciones.</legend>
+                <div class="scale-options">
+                  <label for="q11-1">
+                    <input type="radio" id="q11-1" name="q11" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q11-2">
+                    <input type="radio" id="q11-2" name="q11" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q11-3">
+                    <input type="radio" id="q11-3" name="q11" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q11-4">
+                    <input type="radio" id="q11-4" name="q11" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q11-5">
+                    <input type="radio" id="q11-5" name="q11" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">12. Me veo apoyando procesos de cuidado en hospitales, fundaciones o brigadas.</legend>
+                <div class="scale-options">
+                  <label for="q12-1">
+                    <input type="radio" id="q12-1" name="q12" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q12-2">
+                    <input type="radio" id="q12-2" name="q12" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q12-3">
+                    <input type="radio" id="q12-3" name="q12" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q12-4">
+                    <input type="radio" id="q12-4" name="q12" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q12-5">
+                    <input type="radio" id="q12-5" name="q12" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">13. Me motiva liderar proyectos comunitarios o escolares.</legend>
+                <div class="scale-options">
+                  <label for="q13-1">
+                    <input type="radio" id="q13-1" name="q13" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q13-2">
+                    <input type="radio" id="q13-2" name="q13" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q13-3">
+                    <input type="radio" id="q13-3" name="q13" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q13-4">
+                    <input type="radio" id="q13-4" name="q13" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q13-5">
+                    <input type="radio" id="q13-5" name="q13" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">14. Siento satisfacción al contar historias a través de fotografía, teatro o escritura.</legend>
+                <div class="scale-options">
+                  <label for="q14-1">
+                    <input type="radio" id="q14-1" name="q14" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q14-2">
+                    <input type="radio" id="q14-2" name="q14" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q14-3">
+                    <input type="radio" id="q14-3" name="q14" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q14-4">
+                    <input type="radio" id="q14-4" name="q14" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q14-5">
+                    <input type="radio" id="q14-5" name="q14" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">15. Estoy dispuesto a asumir riesgos calculados para desarrollar una idea propia.</legend>
+                <div class="scale-options">
+                  <label for="q15-1">
+                    <input type="radio" id="q15-1" name="q15" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q15-2">
+                    <input type="radio" id="q15-2" name="q15" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q15-3">
+                    <input type="radio" id="q15-3" name="q15" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q15-4">
+                    <input type="radio" id="q15-4" name="q15" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q15-5">
+                    <input type="radio" id="q15-5" name="q15" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Calcular afinidad</button>
+              <button type="reset" class="btn ghost">Borrar respuestas</button>
+            </div>
+          </form>
+          <div id="test-feedback" class="result-box hidden" aria-live="polite" role="status"></div>
+        </div>
+      </div>
+
+main
     </section>
 
     <section id="recomendaciones">
@@ -615,5 +1228,111 @@
   <footer>
     FutureWay · Diseño técnico elaborado por equipo multidisciplinario de orientadores, psicólogos y desarrolladores colombianos.
   </footer>
+codex/develop-technical-proposal-for-futureway-app-wal5ym
+  <script>
+    const sanitize = (value = "") =>
+      value
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const registroForm = document.getElementById("registro-form");
+    const registroFeedback = document.getElementById("registro-feedback");
+
+    if (registroForm && registroFeedback) {
+      registroForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(registroForm);
+        const nombre = sanitize(formData.get("nombre")?.trim() || "Estudiante");
+        const edad = sanitize(formData.get("edad") || "");
+        const colegio = sanitize(formData.get("colegio")?.trim() || "Colegio por definir");
+        const grado = sanitize(formData.get("grado") || "grado por definir");
+        const intereses = sanitize(formData.get("intereses")?.trim() || "Intereses en construcción");
+
+        registroFeedback.innerHTML = `
+          <strong>Perfil guardado:</strong> ${nombre} · ${edad} años · ${grado}<br />
+          <strong>Colegio:</strong> ${colegio}<br />
+          <strong>Intereses declarados:</strong> ${intereses}
+        `;
+        registroFeedback.classList.remove("hidden");
+      });
+
+      registroForm.addEventListener("reset", () => {
+        registroFeedback.classList.add("hidden");
+        registroFeedback.textContent = "";
+      });
+    }
+
+    const testForm = document.getElementById("test-form");
+    const testFeedback = document.getElementById("test-feedback");
+
+    if (testForm && testFeedback) {
+      testForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(testForm);
+        const areas = {
+          STEM: ["q1", "q6", "q11"],
+          Salud: ["q2", "q7", "q12"],
+          Social: ["q3", "q8", "q13"],
+          Creativo: ["q4", "q9", "q14"],
+          Emprendimiento: ["q5", "q10", "q15"],
+        };
+
+        const areaDescriptions = {
+          STEM:
+            "Explora ingeniería, programación, ciencias aplicadas o programas técnicos del SENA en mecatrónica y desarrollo de software.",
+          Salud:
+            "Profundiza en enfermería, auxiliar en salud, psicología educativa o programas de bienestar comunitario.",
+          Social:
+            "Revisa trabajo social, derecho, ciencia política, gestión pública y liderazgo comunitario.",
+          Creativo:
+            "Considera diseño gráfico, multimedia, comunicación audiovisual, artes escénicas y producción cultural.",
+          Emprendimiento:
+            "Fortalece conocimientos de administración, finanzas personales, marketing digital y programas de emprendimiento juvenil.",
+        };
+
+        const areaResults = {};
+        let total = 0;
+
+        Object.entries(areas).forEach(([area, questions]) => {
+          let sum = 0;
+          questions.forEach((question) => {
+            const value = Number(formData.get(question) || 0);
+            sum += value;
+            total += value;
+          });
+          areaResults[area] = sum / questions.length;
+        });
+
+        const sorted = Object.entries(areaResults).sort((a, b) => b[1] - a[1]);
+        const promedio = (total / 15).toFixed(2);
+        const [topArea, topScore] = sorted[0];
+        const insights = sorted
+          .map(
+            ([area, score]) =>
+              `<li><strong>${area}</strong>: ${score.toFixed(2)} · ${areaDescriptions[area]}</li>`
+          )
+          .join("");
+
+        testFeedback.innerHTML = `
+          <strong>Resultado general:</strong> Promedio ${promedio} / 5<br />
+          <strong>Mayor afinidad:</strong> ${topArea} (${topScore.toFixed(2)})<br /><br />
+          <strong>Interpretación por área:</strong>
+          <ul>${insights}</ul>
+        `;
+        testFeedback.classList.remove("hidden");
+      });
+
+      testForm.addEventListener("reset", () => {
+        testFeedback.classList.add("hidden");
+        testFeedback.textContent = "";
+      });
+    }
+  </script>
+
+main
 </body>
 </html>
