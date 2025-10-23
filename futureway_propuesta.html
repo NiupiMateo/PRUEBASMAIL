@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureWay - Propuesta Técnica</title>
+  <style>
+    :root {
+      --turquesa: #25B2A7;
+      --azul-oscuro: #1F2244;
+      --morado: #7B3D91;
+      --gris-claro: #f4f7f8;
+      --gris-medio: #d6d9e4;
+      --texto: #1f1f1f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(180deg, rgba(37, 178, 167, 0.12) 0%, rgba(31, 34, 68, 0.12) 100%);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 8px 24px rgba(31, 34, 68, 0.25);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.04em;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: clamp(1rem, 2.4vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    main {
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+    }
+
+    section {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 18px;
+      padding: clamp(1.5rem, 3vw, 2.75rem);
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 30px rgba(31, 34, 68, 0.12);
+      border: 1px solid rgba(31, 34, 68, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(37, 178, 167, 0.08), rgba(123, 61, 145, 0.08));
+      pointer-events: none;
+    }
+
+    section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      color: var(--azul-oscuro);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-top: 0;
+      border-left: 6px solid var(--turquesa);
+      padding-left: 0.75rem;
+    }
+
+    h3 {
+      color: var(--morado);
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding-left: 1.8rem;
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    ul li::before {
+      content: "✦";
+      color: var(--turquesa);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(37, 178, 167, 0.15);
+      color: var(--azul-oscuro);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      margin: 0.35rem 0.35rem 0 0;
+      font-size: 0.85rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(31, 34, 68, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    }
+
+    .diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .diagram .node {
+      background: rgba(31, 34, 68, 0.9);
+      color: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 20px rgba(31, 34, 68, 0.3);
+    }
+
+    .diagram .node::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      width: 28px;
+      height: 28px;
+      background: radial-gradient(circle at center, rgba(37, 178, 167, 0.4), rgba(31, 34, 68, 0));
+      border-radius: 50%;
+    }
+
+    .diagram .node h4 {
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 1.05rem;
+    }
+
+    .connector {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--morado);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+      border-left: 4px solid rgba(31, 34, 68, 0.15);
+      margin-top: 2rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--turquesa), var(--morado));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 1rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -2.8rem;
+      top: 0.2rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--azul-oscuro);
+      border: 3px solid var(--turquesa);
+      box-shadow: 0 0 0 6px rgba(37, 178, 167, 0.2);
+    }
+
+    .timeline-item h4 {
+      margin: 0 0 0.5rem;
+      color: var(--azul-oscuro);
+    }
+
+    .wireframe-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .wireframe {
+      background: linear-gradient(180deg, rgba(31, 34, 68, 0.08), rgba(37, 178, 167, 0.08));
+      border: 2px solid rgba(31, 34, 68, 0.35);
+      border-radius: 24px;
+      padding: 1rem;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .wireframe::before {
+      content: "Pantalla";
+      position: absolute;
+      top: -14px;
+      left: 1rem;
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .wireframe h4 {
+      margin: 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 14px;
+      padding: 0.5rem 0.75rem;
+      color: var(--azul-oscuro);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .wireframe .block {
+      border: 1.5px dashed rgba(31, 34, 68, 0.45);
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .wireframe .block strong {
+      color: var(--morado);
+    }
+
+    .flex-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+    }
+
+    .badge {
+      background: rgba(123, 61, 145, 0.16);
+      color: var(--azul-oscuro);
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 1.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(31, 34, 68, 0.1);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: rgba(37, 178, 167, 0.15);
+      color: var(--azul-oscuro);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--azul-oscuro);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.85rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FutureWay · Propuesta Técnica Integral</h1>
+    <p>Aplicación móvil de orientación vocacional y emprendimiento para estudiantes de 14-18 años en Colombia</p>
+  </header>
+  <main>
+    <section id="analisis-viabilidad">
+      <h2>1. Análisis de Viabilidad Técnica</h2>
+      <div class="grid grid-cols-2">
+        <div class="card">
+          <h3>Desafíos Clave</h3>
+          <ul>
+            <li>Normalizar datos confiables sobre oferta educativa, costos reales y becas en Colombia integrando fuentes oficiales (SNIES, Icetex, SENA) y privadas.</li>
+            <li>Garantizar tests psicotécnicos validados y culturalmente pertinentes, asegurando escalabilidad para actualizaciones periódicas.</li>
+            <li>Diseñar experiencia mobile-first con soporte offline parcial para usuarios en zonas rurales con conectividad limitada.</li>
+            <li>Proteger información sensible de menores según Ley 1581 de 2012 y lineamientos de Habeas Data.</li>
+            <li>Contrarrestar influencia de redes sociales mediante contenidos verificados, storytelling local y microinteracciones que refuercen permanencia.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Viabilidad y Factibilidad</h3>
+          <ul>
+            <li>Uso de stack híbrido (React Native + backend Node.js) permite iterar rápido y soportar Android/iOS con rendimiento adecuado para dispositivos de gama media-baja.</li>
+            <li>Sincronización offline mediante almacenamiento local cifrado y colas de sincronización incremental asegura continuidad básica sin conexión.</li>
+            <li>Servicios de autenticación modular con control parental opcional facilitan cumplimiento normativo y escalabilidad hacia integraciones educativas.</li>
+            <li>Base de datos documental + relacional híbrida facilita combinar datos de usuario personalizados con catálogos educativos/emprendimiento.</li>
+            <li>Infraestructura en la nube regional (AWS Bogotá o GCP Sao Paulo) reduce latencia y facilita cumplir requisitos de residencia de datos.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="arquitectura">
+      <h2>2. Arquitectura Técnica Propuesta</h2>
+      <p>Arquitectura modular y escalable que separa capas de presentación, lógica de negocio, datos y analítica; pensada para crecer hacia integraciones con entidades educativas y programas de becas.</p>
+      <div class="diagram">
+        <div class="node">
+          <h4>Aplicación Móvil (React Native)</h4>
+          <ul>
+            <li>UI adaptativa, microinteracciones y tema oscuro/claro.</li>
+            <li>Gestor de estado (Redux Toolkit) y caché offline (React Query + MMKV).</li>
+            <li>Módulos: Perfil, Autoconocimiento, Comparador, Emprendimiento, Planificador.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>API Gateway &amp; BFF (Node.js + NestJS)</h4>
+          <ul>
+            <li>Endpoints REST/GraphQL con rate limiting y JWT + refresh tokens.</li>
+            <li>Orquestación de microservicios, traducción de datos y validación.</li>
+            <li>Gestión de colas para sincronización offline.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>Servicios de Dominio</h4>
+          <ul>
+            <li><strong>Usuarios &amp; Progreso</strong>: PostgreSQL + Prisma.</li>
+            <li><strong>Contenido Vocacional</strong>: MongoDB (perfiles, testimonios, rutas).</li>
+            <li><strong>Analytics Ética</strong>: Segmentación anónima con Redshift/BigQuery.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>Integraciones &amp; Datos</h4>
+          <ul>
+            <li>Jobs ETL (Airflow) para datos de SNIES, SENA, Icetex.</li>
+            <li>API Microfinanzas, Fondo Emprender, Apps.co.</li>
+            <li>Motor de recomendaciones (Python FastAPI + scikit-learn).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="connector">⬇</div>
+      <div class="diagram">
+        <div class="node">
+          <h4>Seguridad &amp; Cumplimiento</h4>
+          <ul>
+            <li>Cifrado de datos en tránsito (TLS 1.3) y reposo (KMS).</li>
+            <li>Consentimiento informado para menores y tutores.</li>
+            <li>Auditorías y monitoreo (CloudWatch / Stackdriver).</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>DevOps &amp; Calidad</h4>
+          <ul>
+            <li>CI/CD (GitHub Actions) con pruebas unitarias, E2E (Detox) y análisis estático.</li>
+            <li>Infraestructura como código (Terraform).</li>
+            <li>Feature flags (LaunchDarkly) para iteraciones seguras.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>Canal de Contenido</h4>
+          <ul>
+            <li>CMS Headless (Strapi) para artículos, historias y guías.</li>
+            <li>Moderación y curaduría por orientadores/psicólogos.</li>
+            <li>Push notifications segmentadas con Firebase Cloud Messaging.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="flujo-usuario">
+      <h2>3. Flujo de Usuario Prioritario</h2>
+      <p>Experiencia centrada en los estudiantes, con máximo tres toques para acceder a cualquier módulo y mensajes que contrarresten decisiones apresuradas influenciadas por redes sociales.</p>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Fase</th>
+              <th>Acción del Estudiante</th>
+              <th>Soporte de la App</th>
+              <th>Salidas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Onboarding</td>
+              <td>Registro con datos básicos, intereses iniciales y expectativa (estudiar, emprender, explorar).</td>
+              <td>Microinteracciones con cards informativas sobre influencia de redes y beneficios de orientación profesional.</td>
+              <td>Perfil inicial, consentimiento informado, panel de progreso desbloqueado.</td>
+            </tr>
+            <tr>
+              <td>Autoconocimiento</td>
+              <td>Completa tests psicotécnicos y cuestionarios contextualizados.</td>
+              <td>Feedback inmediato visual (radiales, badges) y cápsulas de video breve con psicólogos colombianos.</td>
+              <td>Mapa de intereses, ranking de habilidades blandas/duras, recomendaciones iniciales.</td>
+            </tr>
+            <tr>
+              <td>Exploración</td>
+              <td>Consulta comparador educativo y rutas de emprendimiento.</td>
+              <td>Filtros geográficos/económicos, testimonios reales, estimaciones salariales basadas en datos DANE.</td>
+              <td>Listas cortas personalizadas (programas académicos, rutas SENA, ideas de negocio).</td>
+            </tr>
+            <tr>
+              <td>Acción</td>
+              <td>Crea plan con checklist de admisión o roadmap emprendedor.</td>
+              <td>Calendario sincronizado, recordatorios offline, recursos descargables.</td>
+              <td>Seguimiento visual del progreso, indicadores de preparación, próximos pasos compartibles.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Wireframes Clave (MVP)</h3>
+      <div class="wireframe-container">
+        <div class="wireframe">
+          <h4>Inicio &amp; Progreso</h4>
+          <div class="block"><strong>Header dinámico:</strong> saludo + nivel de avance (con barra circular).</div>
+          <div class="block">Botones principales (Autoconocimiento, Explorar, Acción) en tarjetas grandes.</div>
+          <div class="block">Feed informativo anti-desinformación con cápsulas verificadas.</div>
+          <div class="block">Resumen de tareas próximas con iconos diferenciados.</div>
+        </div>
+        <div class="wireframe">
+          <h4>Test de Autoconocimiento</h4>
+          <div class="block">Progreso por secciones (intereses, habilidades, valores).</div>
+          <div class="block">Preguntas con componentes visuales (emojis, sliders).</div>
+          <div class="block">Tips contextuales (“¿Sabías que…?” sobre carreras/tech).</div>
+          <div class="block">Botón flotante de pausa/guardar offline.</div>
+        </div>
+        <div class="wireframe">
+          <h4>Comparador Educativo</h4>
+          <div class="block">Buscador con filtros por región, costo, modalidad.</div>
+          <div class="block">Tarjetas comparativas lado a lado con iconos (costos, becas, empleabilidad).</div>
+          <div class="block">Sección de testimonios en carrusel (video/voz).</div>
+          <div class="block">CTA para añadir a “Mi plan”.</div>
+        </div>
+        <div class="wireframe">
+          <h4>Ruta de Emprendimiento</h4>
+          <div class="block">Checklist del modelo Canvas simplificado.</div>
+          <div class="block">Botones hacia recursos locales (Fondo Emprender, Apps.co).</div>
+          <div class="block">Autoevaluación con indicador de aptitud emprendedora.</div>
+          <div class="block">Ejemplos de jóvenes emprendedores (cards con foto).</div>
+        </div>
+        <div class="wireframe">
+          <h4>Planificador &amp; Calendario</h4>
+          <div class="block">Calendario mensual con hitos (ECAES, becas, ferias).</div>
+          <div class="block">Checklist personalizable con arrastrar y soltar.</div>
+          <div class="block">Recordatorios de notificaciones push/offline.</div>
+          <div class="block">Panel de logros parciales (badges, barras).</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="recomendaciones">
+      <h2>4. Recomendaciones Específicas para el Contexto Colombiano</h2>
+      <div class="grid grid-cols-2">
+        <div class="card">
+          <h3>Contenido &amp; Mensajería</h3>
+          <ul>
+            <li>Incluir narrativas cortas tipo “desmintiendo TikToks” que cuestionen información viral e incentiven verificación.</li>
+            <li>Mostrar salarios promedio por región (fuente DANE/Observatorio Laboral) con advertencias sobre variabilidad.</li>
+            <li>Destacar opciones técnicas, tecnológicas y de formación dual (SENA, programas de universidades regionales) en igualdad de relevancia con carreras universitarias.</li>
+            <li>Integrar cápsulas audiovisuales de jóvenes colombianos que transitaron de contenidos virales a decisiones informadas.</li>
+            <li>Lenguaje coloquial respetuoso, evitando tecnicismos; incorporar glosario interactivo para términos clave.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Operación &amp; Alianzas</h3>
+          <ul>
+            <li>Firmar convenios con secretarías de educación y cajas de compensación para actualización de datos y difusión.</li>
+            <li>Validar tests con psicólogos educativos colombianos y universidades aliadas para garantizar pertinencia cultural.</li>
+            <li>Habilitar modo offline con paquetes de contenido descargable (PDFs, podcasts) para colegios rurales.</li>
+            <li>Crear programa “Embajadores FutureWay” con estudiantes líderes para retroalimentación continua.</li>
+            <li>Establecer comité ético que supervise uso de datos, sesgos en recomendaciones y mensajes sobre ingresos.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Consideraciones Técnicas Complementarias</h3>
+      <div class="flex-badges">
+        <span class="badge">Optimización para Android 8+ / 2GB RAM</span>
+        <span class="badge">Modo bajo consumo de datos</span>
+        <span class="badge">Cifrado AES-256 local</span>
+        <span class="badge">Soporte a PWA complementaria</span>
+        <span class="badge">Accesibilidad AA (WCAG)</span>
+        <span class="badge">Analytics con enfoque ético</span>
+      </div>
+    </section>
+
+    <section id="plan-implementacion">
+      <h2>5. Plan de Implementación en 3 Fases</h2>
+      <p>Timeline estimado de 9 meses con entregables incrementales y validaciones continuas junto a estudiantes y orientadores.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h4>Fase 1 · Fundamentos (Meses 1-3)</h4>
+          <ul>
+            <li>Discovery profundo: entrevistas con estudiantes (urbano/rural) y orientadores; definición de OKRs.</li>
+            <li>Diseño UI/UX completo + prototipos navegables; validación con 3 colegios piloto.</li>
+            <li>Setup de infraestructura (repos, CI/CD, IaC) y desarrollo de módulos: registro, perfil, autoconocimiento básico.</li>
+            <li>Integración inicial con CMS y datasets educativos estáticos; motor de recomendaciones rule-based.</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <h4>Fase 2 · Exploración Profunda (Meses 4-6)</h4>
+          <ul>
+            <li>Implementación de comparador educativo con datos dinámicos (ETL quincenal) y testimonios moderados.</li>
+            <li>Despliegue de rutas de emprendimiento, Canvas simplificado y recursos de financiación local.</li>
+            <li>Sincronización offline (caché de tests, planificador) y modo bajo datos.</li>
+            <li>Pruebas de usabilidad iterativas; incorporación de feedback (microcopy, reducción de pasos).</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <h4>Fase 3 · Acción y Escalamiento (Meses 7-9)</h4>
+          <ul>
+            <li>Planificador completo con calendario, checklist y notificaciones push segmentadas.</li>
+            <li>Motor de recomendaciones híbrido (reglas + machine learning supervisado).</li>
+            <li>Controles parentales opcionales, panel de analítica ética y dashboards para orientadores aliados.</li>
+            <li>Pilotos ampliados en 8 colegios; métricas de impacto (decisiones informadas, reducción de indecisión).</li>
+            <li>Preparación para escalamiento nacional y roadmap de integraciones (becas, bolsa laboral).</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Validación con Usuarios Reales</h3>
+      <ul>
+        <li>Co-diseño con 2 colegios oficiales y 1 privado por región (Costa, Andina, Pacífico) para diversidad socioeconómica.</li>
+        <li>Pruebas de usabilidad cada sprint (quincenal) con métricas SUS, Tareas completadas &lt;=3 clics.</li>
+        <li>Panel consultivo de psicólogos, orientadores y estudiantes; sesiones mensuales de revisión.</li>
+        <li>Pilotaje controlado (beta cerrada) con seguimiento de impacto en decisiones post-secundaria.</li>
+        <li>Encuestas in-app y focus groups sobre percepción frente a contenido de redes sociales.</li>
+      </ul>
+      <h3>Análisis de Riesgos y Mitigaciones</h3>
+      <div class="grid grid-cols-2">
+        <div class="card">
+          <h3>Riesgos Principales</h3>
+          <ul>
+            <li>Desactualización de datos educativos y de apoyo financiero.</li>
+            <li>Baja adopción en zonas de baja conectividad.</li>
+            <li>Sesgos en recomendaciones (género, región, estrato).</li>
+            <li>Uso indebido de datos personales de menores.</li>
+            <li>Desconfianza por comparación con contenido atractivo de TikTok.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Mitigaciones</h3>
+          <ul>
+            <li>Automatizar pipelines ETL + alertas de frescura; alianzas institucionales.</li>
+            <li>Modo offline robusto + distribución de paquetes por colegios vía Wi-Fi/direct download.</li>
+            <li>Auditorías periódicas de algoritmos; panel de transparencia para usuarios.</li>
+            <li>Cumplimiento estricto de Ley 1581, consentimiento parental, cifrado E2E.</li>
+            <li>Contenido multimedia propio, influencers educativos aliados y gamificación ligera futura.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    FutureWay · Diseño técnico elaborado por equipo multidisciplinario de orientadores, psicólogos y desarrolladores colombianos.
+  </footer>
+</body>
+</html>
