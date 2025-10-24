@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureWay - Propuesta Técnica</title>
+  <style>
+    :root {
+      --turquesa: #25B2A7;
+      --azul-oscuro: #1F2244;
+      --morado: #7B3D91;
+      --gris-claro: #f4f7f8;
+      --gris-medio: #d6d9e4;
+      --texto: #1f1f1f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(180deg, rgba(37, 178, 167, 0.12) 0%, rgba(31, 34, 68, 0.12) 100%);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 8px 24px rgba(31, 34, 68, 0.25);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.04em;
+    }
+
+    header p {
+      margin: 0.5rem 0 1.25rem;
+      font-size: clamp(1rem, 2.4vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .header-progress {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .header-progress span {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: linear-gradient(90deg, var(--turquesa), var(--morado));
+      border-radius: inherit;
+      transition: width 0.2s ease-out;
+    }
+
+    main {
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+    }
+
+    section {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 18px;
+      padding: clamp(1.5rem, 3vw, 2.75rem);
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 30px rgba(31, 34, 68, 0.12);
+      border: 1px solid rgba(31, 34, 68, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(37, 178, 167, 0.08), rgba(123, 61, 145, 0.08));
+      pointer-events: none;
+    }
+
+    section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      color: var(--azul-oscuro);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-top: 0;
+      border-left: 6px solid var(--turquesa);
+      padding-left: 0.75rem;
+    }
+
+    h3 {
+      color: var(--morado);
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding-left: 1.8rem;
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    ul li::before {
+      content: "✦";
+      color: var(--turquesa);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(37, 178, 167, 0.15);
+      color: var(--azul-oscuro);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      margin: 0.35rem 0.35rem 0 0;
+      font-size: 0.85rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(31, 34, 68, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    }
+
+    .diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .diagram .node {
+      background: rgba(31, 34, 68, 0.9);
+      color: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 20px rgba(31, 34, 68, 0.3);
+    }
+
+    .diagram .node::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      width: 28px;
+      height: 28px;
+      background: radial-gradient(circle at center, rgba(37, 178, 167, 0.4), rgba(31, 34, 68, 0));
+      border-radius: 50%;
+    }
+
+    .diagram .node h4 {
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 1.05rem;
+    }
+
+    .connector {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--morado);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+      border-left: 4px solid rgba(31, 34, 68, 0.15);
+      margin-top: 2rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--turquesa), var(--morado));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 1rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -2.8rem;
+      top: 0.2rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--azul-oscuro);
+      border: 3px solid var(--turquesa);
+      box-shadow: 0 0 0 6px rgba(37, 178, 167, 0.2);
+    }
+
+    .timeline-item h4 {
+      margin: 0 0 0.5rem;
+      color: var(--azul-oscuro);
+    }
+
+    .timeline-item:focus-visible {
+      outline: 3px solid rgba(37, 178, 167, 0.4);
+      outline-offset: 4px;
+    }
+
+    .timeline-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(31, 34, 68, 0.18);
+    }
+
+    .timeline-item ul {
+      margin: 0;
+      padding-left: 1rem;
+      transition: max-height 0.3s ease;
+    }
+
+    .wireframe-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .wireframe {
+      background: linear-gradient(180deg, rgba(31, 34, 68, 0.08), rgba(37, 178, 167, 0.08));
+      border: 2px solid rgba(31, 34, 68, 0.35);
+      border-radius: 24px;
+      padding: 1rem;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .wireframe::before {
+      content: "Pantalla";
+      position: absolute;
+      top: -14px;
+      left: 1rem;
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .wireframe h4 {
+      margin: 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 14px;
+      padding: 0.5rem 0.75rem;
+      color: var(--azul-oscuro);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .wireframe .block {
+      border: 1.5px dashed rgba(31, 34, 68, 0.45);
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .wireframe .block strong {
+      color: var(--morado);
+    }
+
+    .flex-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+    }
+
+    .badge {
+      background: rgba(123, 61, 145, 0.16);
+      color: var(--azul-oscuro);
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 1.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(31, 34, 68, 0.1);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: rgba(37, 178, 167, 0.15);
+      color: var(--azul-oscuro);
+    }
+
+    .interactive-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 18px;
+      padding: 1.5rem;
+      border: 1px solid rgba(31, 34, 68, 0.08);
+      box-shadow: 0 12px 28px rgba(31, 34, 68, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-card h4 {
+      margin: 0;
+      color: var(--azul-oscuro);
+    }
+
+    .form-card p {
+      margin: 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: var(--azul-oscuro);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1.5px solid rgba(31, 34, 68, 0.18);
+      border-radius: 12px;
+      padding: 0.65rem 0.85rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: rgba(37, 178, 167, 0.06);
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--turquesa);
+      box-shadow: 0 0 0 4px rgba(37, 178, 167, 0.2);
+      background: white;
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .form-hint {
+      font-size: 0.85rem;
+      color: rgba(31, 34, 68, 0.65);
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .test-progress {
+      background: rgba(31, 34, 68, 0.05);
+      border-radius: 14px;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .test-progress strong {
+      color: var(--azul-oscuro);
+    }
+
+    .test-progress-bar {
+      height: 10px;
+      background: rgba(31, 34, 68, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .test-progress-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--turquesa), var(--morado));
+      transition: width 0.25s ease-out;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--turquesa), var(--morado));
+      color: white;
+      box-shadow: 0 10px 20px rgba(37, 178, 167, 0.25);
+    }
+
+    .btn.ghost {
+      background: rgba(31, 34, 68, 0.05);
+      color: var(--azul-oscuro);
+      border: 1px solid rgba(31, 34, 68, 0.12);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(31, 34, 68, 0.18);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(123, 61, 145, 0.35);
+      outline-offset: 2px;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      gap: 0.75rem;
+      background: rgba(31, 34, 68, 0.92);
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      box-shadow: 0 18px 32px rgba(31, 34, 68, 0.35);
+      z-index: 20;
+    }
+
+    .mobile-nav button {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .mobile-nav button:focus,
+    .mobile-nav button:hover {
+      background: rgba(37, 178, 167, 0.85);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .mobile-nav button.active {
+      background: rgba(37, 178, 167, 1);
+      color: var(--azul-oscuro);
+    }
+
+    .test-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .question {
+      border: 1.5px dashed rgba(31, 34, 68, 0.2);
+      border-radius: 14px;
+      padding: 1rem 1.1rem 0.9rem;
+      background: rgba(31, 34, 68, 0.02);
+      margin: 0;
+    }
+
+    .question legend {
+      padding: 0 0.4rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .question-title {
+      margin: 0 0 0.6rem;
+      color: var(--morado);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .scale-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .scale-options label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(37, 178, 167, 0.12);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .scale-options label:hover {
+      background: rgba(123, 61, 145, 0.18);
+    }
+
+    .scale-options input[type="radio"] {
+      accent-color: var(--turquesa);
+      margin: 0;
+    }
+
+    .result-box {
+      margin-top: 0.5rem;
+      padding: 1rem;
+      border-radius: 14px;
+      border-left: 4px solid var(--turquesa);
+      background: rgba(37, 178, 167, 0.12);
+      font-size: 0.95rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--azul-oscuro);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1.25rem 2.5rem;
+      }
+
+      main {
+        padding: 1.5rem 1.25rem 5.5rem;
+      }
+
+      section {
+        margin-bottom: 1.75rem;
+        padding: 1.25rem;
+      }
+
+      .grid-cols-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .diagram {
+        grid-template-columns: 1fr;
+      }
+
+      .wireframe-container {
+        grid-auto-flow: column;
+        grid-auto-columns: 85%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1rem;
+      }
+
+      .wireframe {
+        min-height: auto;
+        scroll-snap-align: center;
+      }
+
+      .interactive-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .mobile-nav {
+        display: flex;
+        flex-wrap: wrap;
+        width: min(90vw, 420px);
+      }
+
+      .mobile-nav button {
+        flex: 1 1 45%;
+        justify-content: center;
+      }
+
+      .timeline {
+        border-left: none;
+        padding-left: 0;
+      }
+
+      .timeline::before {
+        display: none;
+      }
+
+      .timeline-item {
+        padding: 1rem;
+        border: 1px solid rgba(31, 34, 68, 0.12);
+        border-radius: 16px;
+        margin-left: 0;
+      }
+
+      .timeline-item::before {
+        display: none;
+      }
+
+      .timeline-item ul {
+        max-height: 0;
+        overflow: hidden;
+        padding-left: 0.75rem;
+      }
+
+      .timeline-item[aria-expanded="true"] ul {
+        max-height: 640px;
+      }
+
+      .table-responsive {
+        margin-inline: -1.25rem;
+        padding-inline: 1.25rem;
+      }
+
+      table {
+        min-width: 520px;
+      }
+
+      .wireframe-container::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FutureWay · Propuesta Técnica Integral</h1>
+    <p>Aplicación móvil de orientación vocacional y emprendimiento para estudiantes de 14-18 años en Colombia</p>
+    <div
+      id="header-progress"
+      class="header-progress"
+      role="progressbar"
+      aria-label="Avance de lectura"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+    >
+      <span></span>
+    </div>
+  </header>
+  <main>
+    <section id="analisis-viabilidad">
+      <h2>1. Análisis de Viabilidad Técnica</h2>
+      <div class="grid grid-cols-2">
+        <div class="card">
+          <h3>Desafíos Clave</h3>
+          <ul>
+            <li>Normalizar datos confiables sobre oferta educativa, costos reales y becas en Colombia integrando fuentes oficiales (SNIES, Icetex, SENA) y privadas.</li>
+            <li>Garantizar tests psicotécnicos validados y culturalmente pertinentes, asegurando escalabilidad para actualizaciones periódicas.</li>
+            <li>Diseñar experiencia mobile-first con soporte offline parcial para usuarios en zonas rurales con conectividad limitada.</li>
+            <li>Proteger información sensible de menores según Ley 1581 de 2012 y lineamientos de Habeas Data.</li>
+            <li>Contrarrestar influencia de redes sociales mediante contenidos verificados, storytelling local y microinteracciones que refuercen permanencia.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Viabilidad y Factibilidad</h3>
+          <ul>
+            <li>Uso de stack híbrido (React Native + backend Node.js) permite iterar rápido y soportar Android/iOS con rendimiento adecuado para dispositivos de gama media-baja.</li>
+            <li>Sincronización offline mediante almacenamiento local cifrado y colas de sincronización incremental asegura continuidad básica sin conexión.</li>
+            <li>Servicios de autenticación modular con control parental opcional facilitan cumplimiento normativo y escalabilidad hacia integraciones educativas.</li>
+            <li>Base de datos documental + relacional híbrida facilita combinar datos de usuario personalizados con catálogos educativos/emprendimiento.</li>
+            <li>Infraestructura en la nube regional (AWS Bogotá o GCP Sao Paulo) reduce latencia y facilita cumplir requisitos de residencia de datos.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="arquitectura">
+      <h2>2. Arquitectura Técnica Propuesta</h2>
+      <p>Arquitectura modular y escalable que separa capas de presentación, lógica de negocio, datos y analítica; pensada para crecer hacia integraciones con entidades educativas y programas de becas.</p>
+      <div class="diagram">
+        <div class="node">
+          <h4>Aplicación Móvil (React Native)</h4>
+          <ul>
+            <li>UI adaptativa, microinteracciones y tema oscuro/claro.</li>
+            <li>Gestor de estado (Redux Toolkit) y caché offline (React Query + MMKV).</li>
+            <li>Módulos: Perfil, Autoconocimiento, Comparador, Emprendimiento, Planificador.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>API Gateway &amp; BFF (Node.js + NestJS)</h4>
+          <ul>
+            <li>Endpoints REST/GraphQL con rate limiting y JWT + refresh tokens.</li>
+            <li>Orquestación de microservicios, traducción de datos y validación.</li>
+            <li>Gestión de colas para sincronización offline.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>Servicios de Dominio</h4>
+          <ul>
+            <li><strong>Usuarios &amp; Progreso</strong>: PostgreSQL + Prisma.</li>
+            <li><strong>Contenido Vocacional</strong>: MongoDB (perfiles, testimonios, rutas).</li>
+            <li><strong>Analytics Ética</strong>: Segmentación anónima con Redshift/BigQuery.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>Integraciones &amp; Datos</h4>
+          <ul>
+            <li>Jobs ETL (Airflow) para datos de SNIES, SENA, Icetex.</li>
+            <li>API Microfinanzas, Fondo Emprender, Apps.co.</li>
+            <li>Motor de recomendaciones (Python FastAPI + scikit-learn).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="connector">⬇</div>
+      <div class="diagram">
+        <div class="node">
+          <h4>Seguridad &amp; Cumplimiento</h4>
+          <ul>
+            <li>Cifrado de datos en tránsito (TLS 1.3) y reposo (KMS).</li>
+            <li>Consentimiento informado para menores y tutores.</li>
+            <li>Auditorías y monitoreo (CloudWatch / Stackdriver).</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>DevOps &amp; Calidad</h4>
+          <ul>
+            <li>CI/CD (GitHub Actions) con pruebas unitarias, E2E (Detox) y análisis estático.</li>
+            <li>Infraestructura como código (Terraform).</li>
+            <li>Feature flags (LaunchDarkly) para iteraciones seguras.</li>
+          </ul>
+        </div>
+        <div class="node">
+          <h4>Canal de Contenido</h4>
+          <ul>
+            <li>CMS Headless (Strapi) para artículos, historias y guías.</li>
+            <li>Moderación y curaduría por orientadores/psicólogos.</li>
+            <li>Push notifications segmentadas con Firebase Cloud Messaging.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="flujo-usuario">
+      <h2>3. Flujo de Usuario Prioritario</h2>
+      <p>Experiencia centrada en los estudiantes, con máximo tres toques para acceder a cualquier módulo y mensajes que contrarresten decisiones apresuradas influenciadas por redes sociales.</p>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Fase</th>
+              <th>Acción del Estudiante</th>
+              <th>Soporte de la App</th>
+              <th>Salidas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Onboarding</td>
+              <td>Registro con datos básicos, intereses iniciales y expectativa (estudiar, emprender, explorar).</td>
+              <td>Microinteracciones con cards informativas sobre influencia de redes y beneficios de orientación profesional.</td>
+              <td>Perfil inicial, consentimiento informado, panel de progreso desbloqueado.</td>
+            </tr>
+            <tr>
+              <td>Autoconocimiento</td>
+              <td>Completa tests psicotécnicos y cuestionarios contextualizados.</td>
+              <td>Feedback inmediato visual (radiales, badges) y cápsulas de video breve con psicólogos colombianos.</td>
+              <td>Mapa de intereses, ranking de habilidades blandas/duras, recomendaciones iniciales.</td>
+            </tr>
+            <tr>
+              <td>Exploración</td>
+              <td>Consulta comparador educativo y rutas de emprendimiento.</td>
+              <td>Filtros geográficos/económicos, testimonios reales, estimaciones salariales basadas en datos DANE.</td>
+              <td>Listas cortas personalizadas (programas académicos, rutas SENA, ideas de negocio).</td>
+            </tr>
+            <tr>
+              <td>Acción</td>
+              <td>Crea plan con checklist de admisión o roadmap emprendedor.</td>
+              <td>Calendario sincronizado, recordatorios offline, recursos descargables.</td>
+              <td>Seguimiento visual del progreso, indicadores de preparación, próximos pasos compartibles.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Wireframes Clave (MVP)</h3>
+      <div class="wireframe-container">
+        <div class="wireframe">
+          <h4>Inicio &amp; Progreso</h4>
+          <div class="block"><strong>Header dinámico:</strong> saludo + nivel de avance (con barra circular).</div>
+          <div class="block">Botones principales (Autoconocimiento, Explorar, Acción) en tarjetas grandes.</div>
+          <div class="block">Feed informativo anti-desinformación con cápsulas verificadas.</div>
+          <div class="block">Resumen de tareas próximas con iconos diferenciados.</div>
+        </div>
+        <div class="wireframe">
+          <h4>Test de Autoconocimiento</h4>
+          <div class="block">Progreso por secciones (intereses, habilidades, valores).</div>
+          <div class="block">Preguntas con componentes visuales (emojis, sliders).</div>
+          <div class="block">Tips contextuales (“¿Sabías que…?” sobre carreras/tech).</div>
+          <div class="block">Botón flotante de pausa/guardar offline.</div>
+        </div>
+        <div class="wireframe">
+          <h4>Comparador Educativo</h4>
+          <div class="block">Buscador con filtros por región, costo, modalidad.</div>
+          <div class="block">Tarjetas comparativas lado a lado con iconos (costos, becas, empleabilidad).</div>
+          <div class="block">Sección de testimonios en carrusel (video/voz).</div>
+          <div class="block">CTA para añadir a “Mi plan”.</div>
+        </div>
+        <div class="wireframe">
+          <h4>Ruta de Emprendimiento</h4>
+          <div class="block">Checklist del modelo Canvas simplificado.</div>
+          <div class="block">Botones hacia recursos locales (Fondo Emprender, Apps.co).</div>
+          <div class="block">Autoevaluación con indicador de aptitud emprendedora.</div>
+          <div class="block">Ejemplos de jóvenes emprendedores (cards con foto).</div>
+        </div>
+        <div class="wireframe">
+          <h4>Planificador &amp; Calendario</h4>
+          <div class="block">Calendario mensual con hitos (ECAES, becas, ferias).</div>
+          <div class="block">Checklist personalizable con arrastrar y soltar.</div>
+          <div class="block">Recordatorios de notificaciones push/offline.</div>
+          <div class="block">Panel de logros parciales (badges, barras).</div>
+        </div>
+      </div>
+      <h3>Prototipo Ejecutable: Registro y Test Vocacional</h3>
+      <p>El siguiente módulo demostrativo permite experimentar el registro básico de datos y un test vocacional express con 15 preguntas alineadas a intereses y rutas frecuentes en colegios colombianos.</p>
+      <div class="interactive-grid">
+        <div class="form-card">
+          <h4>Registro de Datos Personales</h4>
+          <p id="registro-hint" class="form-hint">Completa tu perfil inicial para personalizar recomendaciones educativas y de emprendimiento.</p>
+          <form id="registro-form" autocomplete="on" aria-describedby="registro-hint registro-privacidad">
+            <div class="form-group">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Ej. Valentina López" required />
+            </div>
+            <div class="form-group">
+              <label for="edad">Edad</label>
+              <input type="number" id="edad" name="edad" min="14" max="18" step="1" inputmode="numeric" placeholder="Ej. 16" required />
+            </div>
+            <div class="form-group">
+              <label for="colegio">Colegio</label>
+              <input type="text" id="colegio" name="colegio" placeholder="Ej. I.E. Distrital Jorge Isaacs" required />
+            </div>
+            <div class="form-group">
+              <label for="grado">Grado actual</label>
+              <select id="grado" name="grado" required>
+                <option value="" disabled selected>Selecciona tu grado</option>
+                <option value="9°">9°</option>
+                <option value="10°">10°</option>
+                <option value="11°">11°</option>
+                <option value="12° (Media técnica)">12° (Media técnica)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="intereses">Intereses principales</label>
+              <textarea id="intereses" name="intereses" placeholder="Ej. Robótica, servicio social, música" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Guardar perfil inicial</button>
+              <button type="reset" class="btn ghost">Limpiar</button>
+            </div>
+            <p id="registro-privacidad" class="form-hint">La información se almacena localmente en esta demo y refleja el flujo real de FutureWay.</p>
+          </form>
+          <div id="registro-feedback" class="result-box hidden" aria-live="polite" role="status"></div>
+        </div>
+        <div class="form-card">
+          <h4>Test Vocacional Express (15 preguntas)</h4>
+          <p id="test-hint" class="form-hint">Responde en una escala de 1 (No me describe) a 5 (Me describe totalmente). El resultado agrupa afinidades en ciencias, salud, impacto social, creatividad y emprendimiento.</p>
+          <form id="test-form" aria-describedby="test-hint">
+            <div class="test-progress" aria-live="polite">
+              <strong id="test-progress-label">Has respondido 0 de 15 preguntas</strong>
+              <div
+                class="test-progress-bar"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <span id="test-progress-bar"></span>
+              </div>
+            </div>
+            <div class="test-grid">
+              <fieldset class="question">
+                <legend class="question-title">1. Disfruto resolver acertijos lógicos y matemáticos.</legend>
+                <div class="scale-options">
+                  <label for="q1-1">
+                    <input type="radio" id="q1-1" name="q1" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q1-2">
+                    <input type="radio" id="q1-2" name="q1" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q1-3">
+                    <input type="radio" id="q1-3" name="q1" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q1-4">
+                    <input type="radio" id="q1-4" name="q1" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q1-5">
+                    <input type="radio" id="q1-5" name="q1" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">2. Me interesa comprender cómo funciona el cuerpo humano y cuidar la salud de otros.</legend>
+                <div class="scale-options">
+                  <label for="q2-1">
+                    <input type="radio" id="q2-1" name="q2" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q2-2">
+                    <input type="radio" id="q2-2" name="q2" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q2-3">
+                    <input type="radio" id="q2-3" name="q2" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q2-4">
+                    <input type="radio" id="q2-4" name="q2" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q2-5">
+                    <input type="radio" id="q2-5" name="q2" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">3. Me motiva participar en proyectos que impacten positivamente mi comunidad.</legend>
+                <div class="scale-options">
+                  <label for="q3-1">
+                    <input type="radio" id="q3-1" name="q3" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q3-2">
+                    <input type="radio" id="q3-2" name="q3" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q3-3">
+                    <input type="radio" id="q3-3" name="q3" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q3-4">
+                    <input type="radio" id="q3-4" name="q3" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q3-5">
+                    <input type="radio" id="q3-5" name="q3" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">4. Me apasiona crear contenidos artísticos como música, dibujo o video.</legend>
+                <div class="scale-options">
+                  <label for="q4-1">
+                    <input type="radio" id="q4-1" name="q4" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q4-2">
+                    <input type="radio" id="q4-2" name="q4" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q4-3">
+                    <input type="radio" id="q4-3" name="q4" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q4-4">
+                    <input type="radio" id="q4-4" name="q4" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q4-5">
+                    <input type="radio" id="q4-5" name="q4" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">5. Sueño con iniciar un emprendimiento propio o gestionar un negocio familiar.</legend>
+                <div class="scale-options">
+                  <label for="q5-1">
+                    <input type="radio" id="q5-1" name="q5" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q5-2">
+                    <input type="radio" id="q5-2" name="q5" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q5-3">
+                    <input type="radio" id="q5-3" name="q5" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q5-4">
+                    <input type="radio" id="q5-4" name="q5" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q5-5">
+                    <input type="radio" id="q5-5" name="q5" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">6. Me siento cómodo usando tecnología para solucionar problemas cotidianos.</legend>
+                <div class="scale-options">
+                  <label for="q6-1">
+                    <input type="radio" id="q6-1" name="q6" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q6-2">
+                    <input type="radio" id="q6-2" name="q6" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q6-3">
+                    <input type="radio" id="q6-3" name="q6" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q6-4">
+                    <input type="radio" id="q6-4" name="q6" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q6-5">
+                    <input type="radio" id="q6-5" name="q6" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">7. Me gustaría trabajar en contextos de bienestar mental o acompañamiento emocional.</legend>
+                <div class="scale-options">
+                  <label for="q7-1">
+                    <input type="radio" id="q7-1" name="q7" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q7-2">
+                    <input type="radio" id="q7-2" name="q7" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q7-3">
+                    <input type="radio" id="q7-3" name="q7" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q7-4">
+                    <input type="radio" id="q7-4" name="q7" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q7-5">
+                    <input type="radio" id="q7-5" name="q7" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">8. Disfruto investigar y debatir sobre temas sociales, políticos o económicos.</legend>
+                <div class="scale-options">
+                  <label for="q8-1">
+                    <input type="radio" id="q8-1" name="q8" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q8-2">
+                    <input type="radio" id="q8-2" name="q8" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q8-3">
+                    <input type="radio" id="q8-3" name="q8" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q8-4">
+                    <input type="radio" id="q8-4" name="q8" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q8-5">
+                    <input type="radio" id="q8-5" name="q8" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">9. Me entusiasma diseñar experiencias visuales atractivas para otros.</legend>
+                <div class="scale-options">
+                  <label for="q9-1">
+                    <input type="radio" id="q9-1" name="q9" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q9-2">
+                    <input type="radio" id="q9-2" name="q9" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q9-3">
+                    <input type="radio" id="q9-3" name="q9" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q9-4">
+                    <input type="radio" id="q9-4" name="q9" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q9-5">
+                    <input type="radio" id="q9-5" name="q9" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">10. Me interesa aprender sobre administración de recursos y finanzas personales.</legend>
+                <div class="scale-options">
+                  <label for="q10-1">
+                    <input type="radio" id="q10-1" name="q10" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q10-2">
+                    <input type="radio" id="q10-2" name="q10" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q10-3">
+                    <input type="radio" id="q10-3" name="q10" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q10-4">
+                    <input type="radio" id="q10-4" name="q10" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q10-5">
+                    <input type="radio" id="q10-5" name="q10" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">11. Quiero entender cómo funcionan los sistemas de energía, máquinas o aplicaciones.</legend>
+                <div class="scale-options">
+                  <label for="q11-1">
+                    <input type="radio" id="q11-1" name="q11" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q11-2">
+                    <input type="radio" id="q11-2" name="q11" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q11-3">
+                    <input type="radio" id="q11-3" name="q11" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q11-4">
+                    <input type="radio" id="q11-4" name="q11" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q11-5">
+                    <input type="radio" id="q11-5" name="q11" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">12. Me veo apoyando procesos de cuidado en hospitales, fundaciones o brigadas.</legend>
+                <div class="scale-options">
+                  <label for="q12-1">
+                    <input type="radio" id="q12-1" name="q12" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q12-2">
+                    <input type="radio" id="q12-2" name="q12" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q12-3">
+                    <input type="radio" id="q12-3" name="q12" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q12-4">
+                    <input type="radio" id="q12-4" name="q12" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q12-5">
+                    <input type="radio" id="q12-5" name="q12" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">13. Me motiva liderar proyectos comunitarios o escolares.</legend>
+                <div class="scale-options">
+                  <label for="q13-1">
+                    <input type="radio" id="q13-1" name="q13" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q13-2">
+                    <input type="radio" id="q13-2" name="q13" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q13-3">
+                    <input type="radio" id="q13-3" name="q13" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q13-4">
+                    <input type="radio" id="q13-4" name="q13" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q13-5">
+                    <input type="radio" id="q13-5" name="q13" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">14. Siento satisfacción al contar historias a través de fotografía, teatro o escritura.</legend>
+                <div class="scale-options">
+                  <label for="q14-1">
+                    <input type="radio" id="q14-1" name="q14" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q14-2">
+                    <input type="radio" id="q14-2" name="q14" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q14-3">
+                    <input type="radio" id="q14-3" name="q14" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q14-4">
+                    <input type="radio" id="q14-4" name="q14" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q14-5">
+                    <input type="radio" id="q14-5" name="q14" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="question">
+                <legend class="question-title">15. Estoy dispuesto a asumir riesgos calculados para desarrollar una idea propia.</legend>
+                <div class="scale-options">
+                  <label for="q15-1">
+                    <input type="radio" id="q15-1" name="q15" value="1" required />
+                    <span>1 · No me describe</span>
+                  </label>
+                  <label for="q15-2">
+                    <input type="radio" id="q15-2" name="q15" value="2" />
+                    <span>2 · Me describe poco</span>
+                  </label>
+                  <label for="q15-3">
+                    <input type="radio" id="q15-3" name="q15" value="3" />
+                    <span>3 · Neutral</span>
+                  </label>
+                  <label for="q15-4">
+                    <input type="radio" id="q15-4" name="q15" value="4" />
+                    <span>4 · Me describe</span>
+                  </label>
+                  <label for="q15-5">
+                    <input type="radio" id="q15-5" name="q15" value="5" />
+                    <span>5 · Me describe totalmente</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Calcular afinidad</button>
+              <button type="reset" class="btn ghost">Borrar respuestas</button>
+            </div>
+          </form>
+          <div id="test-feedback" class="result-box hidden" aria-live="polite" role="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="recomendaciones">
+      <h2>4. Recomendaciones Específicas para el Contexto Colombiano</h2>
+      <div class="grid grid-cols-2">
+        <div class="card">
+          <h3>Contenido &amp; Mensajería</h3>
+          <ul>
+            <li>Incluir narrativas cortas tipo “desmintiendo TikToks” que cuestionen información viral e incentiven verificación.</li>
+            <li>Mostrar salarios promedio por región (fuente DANE/Observatorio Laboral) con advertencias sobre variabilidad.</li>
+            <li>Destacar opciones técnicas, tecnológicas y de formación dual (SENA, programas de universidades regionales) en igualdad de relevancia con carreras universitarias.</li>
+            <li>Integrar cápsulas audiovisuales de jóvenes colombianos que transitaron de contenidos virales a decisiones informadas.</li>
+            <li>Lenguaje coloquial respetuoso, evitando tecnicismos; incorporar glosario interactivo para términos clave.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Operación &amp; Alianzas</h3>
+          <ul>
+            <li>Firmar convenios con secretarías de educación y cajas de compensación para actualización de datos y difusión.</li>
+            <li>Validar tests con psicólogos educativos colombianos y universidades aliadas para garantizar pertinencia cultural.</li>
+            <li>Habilitar modo offline con paquetes de contenido descargable (PDFs, podcasts) para colegios rurales.</li>
+            <li>Crear programa “Embajadores FutureWay” con estudiantes líderes para retroalimentación continua.</li>
+            <li>Establecer comité ético que supervise uso de datos, sesgos en recomendaciones y mensajes sobre ingresos.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Consideraciones Técnicas Complementarias</h3>
+      <div class="flex-badges">
+        <span class="badge">Optimización para Android 8+ / 2GB RAM</span>
+        <span class="badge">Modo bajo consumo de datos</span>
+        <span class="badge">Cifrado AES-256 local</span>
+        <span class="badge">Soporte a PWA complementaria</span>
+        <span class="badge">Accesibilidad AA (WCAG)</span>
+        <span class="badge">Analytics con enfoque ético</span>
+      </div>
+    </section>
+
+    <section id="plan-implementacion">
+      <h2>5. Plan de Implementación en 3 Fases</h2>
+      <p>Timeline estimado de 9 meses con entregables incrementales y validaciones continuas junto a estudiantes y orientadores.</p>
+      <div class="timeline">
+        <div class="timeline-item" data-collapsible role="button" tabindex="0" aria-expanded="true">
+          <h4>Fase 1 · Fundamentos (Meses 1-3)</h4>
+          <ul>
+            <li>Discovery profundo: entrevistas con estudiantes (urbano/rural) y orientadores; definición de OKRs.</li>
+            <li>Diseño UI/UX completo + prototipos navegables; validación con 3 colegios piloto.</li>
+            <li>Setup de infraestructura (repos, CI/CD, IaC) y desarrollo de módulos: registro, perfil, autoconocimiento básico.</li>
+            <li>Integración inicial con CMS y datasets educativos estáticos; motor de recomendaciones rule-based.</li>
+          </ul>
+        </div>
+        <div class="timeline-item" data-collapsible role="button" tabindex="0" aria-expanded="true">
+          <h4>Fase 2 · Exploración Profunda (Meses 4-6)</h4>
+          <ul>
+            <li>Implementación de comparador educativo con datos dinámicos (ETL quincenal) y testimonios moderados.</li>
+            <li>Despliegue de rutas de emprendimiento, Canvas simplificado y recursos de financiación local.</li>
+            <li>Sincronización offline (caché de tests, planificador) y modo bajo datos.</li>
+            <li>Pruebas de usabilidad iterativas; incorporación de feedback (microcopy, reducción de pasos).</li>
+          </ul>
+        </div>
+        <div class="timeline-item" data-collapsible role="button" tabindex="0" aria-expanded="true">
+          <h4>Fase 3 · Acción y Escalamiento (Meses 7-9)</h4>
+          <ul>
+            <li>Planificador completo con calendario, checklist y notificaciones push segmentadas.</li>
+            <li>Motor de recomendaciones híbrido (reglas + machine learning supervisado).</li>
+            <li>Controles parentales opcionales, panel de analítica ética y dashboards para orientadores aliados.</li>
+            <li>Pilotos ampliados en 8 colegios; métricas de impacto (decisiones informadas, reducción de indecisión).</li>
+            <li>Preparación para escalamiento nacional y roadmap de integraciones (becas, bolsa laboral).</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Validación con Usuarios Reales</h3>
+      <ul>
+        <li>Co-diseño con 2 colegios oficiales y 1 privado por región (Costa, Andina, Pacífico) para diversidad socioeconómica.</li>
+        <li>Pruebas de usabilidad cada sprint (quincenal) con métricas SUS, Tareas completadas &lt;=3 clics.</li>
+        <li>Panel consultivo de psicólogos, orientadores y estudiantes; sesiones mensuales de revisión.</li>
+        <li>Pilotaje controlado (beta cerrada) con seguimiento de impacto en decisiones post-secundaria.</li>
+        <li>Encuestas in-app y focus groups sobre percepción frente a contenido de redes sociales.</li>
+      </ul>
+      <h3>Análisis de Riesgos y Mitigaciones</h3>
+      <div class="grid grid-cols-2">
+        <div class="card">
+          <h3>Riesgos Principales</h3>
+          <ul>
+            <li>Desactualización de datos educativos y de apoyo financiero.</li>
+            <li>Baja adopción en zonas de baja conectividad.</li>
+            <li>Sesgos en recomendaciones (género, región, estrato).</li>
+            <li>Uso indebido de datos personales de menores.</li>
+            <li>Desconfianza por comparación con contenido atractivo de TikTok.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Mitigaciones</h3>
+          <ul>
+            <li>Automatizar pipelines ETL + alertas de frescura; alianzas institucionales.</li>
+            <li>Modo offline robusto + distribución de paquetes por colegios vía Wi-Fi/direct download.</li>
+            <li>Auditorías periódicas de algoritmos; panel de transparencia para usuarios.</li>
+            <li>Cumplimiento estricto de Ley 1581, consentimiento parental, cifrado E2E.</li>
+            <li>Contenido multimedia propio, influencers educativos aliados y gamificación ligera futura.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <nav class="mobile-nav" aria-label="Accesos rápidos">
+    <button type="button" data-target="analisis-viabilidad">Viabilidad</button>
+    <button type="button" data-target="arquitectura">Arquitectura</button>
+    <button type="button" data-target="flujo-usuario">Flujo</button>
+    <button type="button" data-target="recomendaciones">Recomendaciones</button>
+    <button type="button" data-target="plan-implementacion">Plan 3 fases</button>
+  </nav>
+  <footer>
+    FutureWay · Diseño técnico elaborado por equipo multidisciplinario de orientadores, psicólogos y desarrolladores colombianos.
+  </footer>
+  <script>
+    const headerProgress = document.getElementById("header-progress");
+    const headerProgressBar = headerProgress?.querySelector("span");
+    const mainSections = Array.from(document.querySelectorAll("main > section"));
+    const navButtons = Array.from(document.querySelectorAll(".mobile-nav button[data-target]"));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const updateScrollIndicators = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      const progressRounded = Math.min(100, Math.max(0, Math.round(progress)));
+
+      if (headerProgressBar) {
+        headerProgressBar.style.width = `${progressRounded}%`;
+      }
+
+      if (headerProgress) {
+        headerProgress.setAttribute("aria-valuenow", progressRounded.toString());
+      }
+
+      if (navButtons.length && mainSections.length) {
+        const focusLine = window.scrollY + window.innerHeight / 3;
+        let currentId = mainSections[0].id;
+
+        for (const section of mainSections) {
+          if (section.offsetTop <= focusLine) {
+            currentId = section.id;
+          }
+        }
+
+        navButtons.forEach((button) => {
+          const target = button.dataset.target;
+          const isActive = target === currentId;
+          if (isActive) {
+            button.classList.add("active");
+            button.setAttribute("aria-current", "true");
+          } else {
+            button.classList.remove("active");
+            button.removeAttribute("aria-current");
+          }
+        });
+      }
+    };
+
+    let scrollTicking = false;
+    const handleScroll = () => {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          updateScrollIndicators();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    };
+
+    updateScrollIndicators();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    const scrollToSection = (id) => {
+      if (!id) return;
+      const targetSection = document.getElementById(id);
+      if (!targetSection) return;
+
+      targetSection.scrollIntoView({
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        block: "start",
+      });
+    };
+
+    navButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        scrollToSection(button.dataset.target || "");
+        updateScrollIndicators();
+      });
+    });
+
+    const timelineItems = Array.from(document.querySelectorAll(".timeline-item[data-collapsible]"));
+    const timelineQuery = window.matchMedia("(max-width: 768px)");
+
+    const applyTimelineDefaults = () => {
+      timelineItems.forEach((item, index) => {
+        const shouldExpand = !timelineQuery.matches || index === 0;
+        item.setAttribute("aria-expanded", shouldExpand ? "true" : "false");
+      });
+    };
+
+    const toggleTimelineItem = (item) => {
+      if (!timelineQuery.matches) {
+        item.setAttribute("aria-expanded", "true");
+        return;
+      }
+
+      const isExpanded = item.getAttribute("aria-expanded") === "true";
+
+      if (isExpanded) {
+        item.setAttribute("aria-expanded", "false");
+      } else {
+        timelineItems.forEach((other) => {
+          if (other !== item) {
+            other.setAttribute("aria-expanded", "false");
+          }
+        });
+        item.setAttribute("aria-expanded", "true");
+      }
+    };
+
+    if (timelineItems.length) {
+      applyTimelineDefaults();
+      const timelineListener = () => {
+        applyTimelineDefaults();
+      };
+
+      if (typeof timelineQuery.addEventListener === "function") {
+        timelineQuery.addEventListener("change", timelineListener);
+      } else if (typeof timelineQuery.addListener === "function") {
+        timelineQuery.addListener(timelineListener);
+      }
+
+      timelineItems.forEach((item) => {
+        item.addEventListener("click", (event) => {
+          if (!timelineQuery.matches) return;
+          if (event.target.closest("a, button, input, label")) return;
+          toggleTimelineItem(item);
+        });
+
+        item.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleTimelineItem(item);
+          }
+        });
+      });
+    }
+
+    const sanitize = (value = "") =>
+      value
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const registroForm = document.getElementById("registro-form");
+    const registroFeedback = document.getElementById("registro-feedback");
+
+    if (registroForm && registroFeedback) {
+      registroForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(registroForm);
+        const nombre = sanitize(formData.get("nombre")?.trim() || "Estudiante");
+        const edad = sanitize(formData.get("edad") || "");
+        const colegio = sanitize(formData.get("colegio")?.trim() || "Colegio por definir");
+        const grado = sanitize(formData.get("grado") || "grado por definir");
+        const intereses = sanitize(formData.get("intereses")?.trim() || "Intereses en construcción");
+
+        registroFeedback.innerHTML = `
+          <strong>Perfil guardado:</strong> ${nombre} · ${edad} años · ${grado}<br />
+          <strong>Colegio:</strong> ${colegio}<br />
+          <strong>Intereses declarados:</strong> ${intereses}
+        `;
+        registroFeedback.classList.remove("hidden");
+      });
+
+      registroForm.addEventListener("reset", () => {
+        registroFeedback.classList.add("hidden");
+        registroFeedback.textContent = "";
+      });
+    }
+
+    const testForm = document.getElementById("test-form");
+    const testFeedback = document.getElementById("test-feedback");
+    const testProgressLabel = document.getElementById("test-progress-label");
+    const testProgressBar = document.getElementById("test-progress-bar");
+    const testProgressContainer = document.querySelector(".test-progress-bar");
+    const testQuestions = testForm ? Array.from(testForm.querySelectorAll(".question")) : [];
+
+    const updateTestProgress = () => {
+      if (!testForm || !testQuestions.length) return;
+      const total = testQuestions.length;
+      let answered = 0;
+
+      testQuestions.forEach((question) => {
+        const firstInput = question.querySelector("input[name]");
+        if (!firstInput) return;
+        if (testForm.querySelector(`input[name="${firstInput.name}"]:checked`)) {
+          answered += 1;
+        }
+      });
+
+      const percent = Math.round((answered / total) * 100);
+
+      if (testProgressLabel) {
+        testProgressLabel.textContent = `Has respondido ${answered} de ${total} preguntas`;
+      }
+
+      if (testProgressBar) {
+        testProgressBar.style.width = `${percent}%`;
+      }
+
+      if (testProgressContainer) {
+        testProgressContainer.setAttribute("aria-valuenow", percent.toString());
+      }
+    };
+
+    if (testForm && testFeedback) {
+      const testInputs = testForm.querySelectorAll('input[type="radio"]');
+
+      testInputs.forEach((input) => {
+        input.addEventListener("change", updateTestProgress);
+      });
+
+      testForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(testForm);
+        const areas = {
+          STEM: ["q1", "q6", "q11"],
+          Salud: ["q2", "q7", "q12"],
+          Social: ["q3", "q8", "q13"],
+          Creativo: ["q4", "q9", "q14"],
+          Emprendimiento: ["q5", "q10", "q15"],
+        };
+
+        const areaDescriptions = {
+          STEM:
+            "Explora ingeniería, programación, ciencias aplicadas o programas técnicos del SENA en mecatrónica y desarrollo de software.",
+          Salud:
+            "Profundiza en enfermería, auxiliar en salud, psicología educativa o programas de bienestar comunitario.",
+          Social:
+            "Revisa trabajo social, derecho, ciencia política, gestión pública y liderazgo comunitario.",
+          Creativo:
+            "Considera diseño gráfico, multimedia, comunicación audiovisual, artes escénicas y producción cultural.",
+          Emprendimiento:
+            "Fortalece conocimientos de administración, finanzas personales, marketing digital y programas de emprendimiento juvenil.",
+        };
+
+        const areaResults = {};
+        let total = 0;
+
+        Object.entries(areas).forEach(([area, questions]) => {
+          let sum = 0;
+          questions.forEach((question) => {
+            const value = Number(formData.get(question) || 0);
+            sum += value;
+            total += value;
+          });
+          areaResults[area] = sum / questions.length;
+        });
+
+        const sorted = Object.entries(areaResults).sort((a, b) => b[1] - a[1]);
+        const promedio = (total / 15).toFixed(2);
+        const [topArea, topScore] = sorted[0];
+        const insights = sorted
+          .map(
+            ([area, score]) =>
+              `<li><strong>${area}</strong>: ${score.toFixed(2)} · ${areaDescriptions[area]}</li>`
+          )
+          .join("");
+
+        testFeedback.innerHTML = `
+          <strong>Resultado general:</strong> Promedio ${promedio} / 5<br />
+          <strong>Mayor afinidad:</strong> ${topArea} (${topScore.toFixed(2)})<br /><br />
+          <strong>Interpretación por área:</strong>
+          <ul>${insights}</ul>
+        `;
+        testFeedback.classList.remove("hidden");
+        updateTestProgress();
+      });
+
+      testForm.addEventListener("reset", () => {
+        testFeedback.classList.add("hidden");
+        testFeedback.textContent = "";
+        updateTestProgress();
+      });
+
+      updateTestProgress();
+    }
+  </script>
+</body>
+</html>
